@@ -9,7 +9,7 @@ export default function PostsList(){
     const {isError, isLoading, isFetching, data = []} = useQuery('posts', getPosts, {refetchOnWindowFocus: false})
     const loading = isLoading || isFetching
     const [visible, setVisible] = useState(false)
-    const [postToEdit, setPostToEdit] = useState(null)
+    const [postToEdit, setPostToEdit] = useState({title: '', text: '', publishDate: ''})
 
     const handleEdit = (data) => {
         setPostToEdit(data)
@@ -31,7 +31,7 @@ export default function PostsList(){
                 {isError && <div>Error...</div>}
                 {loading && <div>Loading...</div>}
                 {!loading && data.map((postData, index) => <Post key={index} dataPost={postData} handleEdit={handleEdit}/>  )}
-                <ModPost visible={visible} onCancel={handleCloseModal} values={postToEdit}/>
+                {visible && <ModPost visible={visible} onCancel={handleCloseModal} values={postToEdit}/>}
             </div>
             <CreatePost handleCreate={handleCreate}/>
         </div>
